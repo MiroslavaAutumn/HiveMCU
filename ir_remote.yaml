@@ -1,0 +1,220 @@
+esphome:
+  name: remote
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: ""
+  password: ""
+  power_save_mode: none
+
+# Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ""
+    password: ""
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+ota:
+
+#IR Reciever
+remote_receiver:
+    pin:
+      number: D1
+      inverted: True
+    dump: all
+
+#IR Transmitter
+remote_transmitter:
+  pin: D2
+  carrier_duty_percent: 50%
+
+switch:
+#TV
+  - platform: template
+    name: Power
+    turn_on_action:
+      - remote_transmitter.transmit_sony:
+          data: 0x00000A90
+          nbits: 12
+          repeat:
+            times: 3
+            wait_time: 25ms
+          
+  - platform: template
+    name: Input
+    turn_on_action:
+      - remote_transmitter.transmit_sony:
+          data: 0x00000A50
+          nbits: 12
+          repeat:
+            times: 3
+            wait_time: 25ms
+          
+  - platform: template
+    name: Volume Up
+    turn_on_action:
+      - remote_transmitter.transmit_sony:
+          data: 0x00000490
+          nbits: 12
+          repeat:
+            times: 3
+            wait_time: 25ms
+          
+  - platform: template
+    name: Volume Down
+    turn_on_action:
+      - remote_transmitter.transmit_sony:
+          data: 0x00000C90
+          nbits: 12
+          repeat:
+            times: 3
+            wait_time: 25ms
+
+  - platform: template
+    name: Mute
+    turn_on_action:
+      - remote_transmitter.transmit_sony:
+          data: 0x00000290
+          nbits: 12
+          repeat:
+            times: 3
+            wait_time: 25ms
+          
+  - platform: template
+    name: Menu
+    turn_on_action:
+      - remote_transmitter.transmit_sony:
+          data: 0x00000070
+          nbits: 12
+          repeat:
+            times: 3
+            wait_time: 25ms
+          
+  - platform: template
+    name: Arrow Up
+    turn_on_action:
+      - remote_transmitter.transmit_sony:
+          data: 0x000002F0
+          nbits: 12
+          repeat:
+            times: 3
+            wait_time: 25ms
+
+  - platform: template
+    name: Arrow Down
+    turn_on_action:
+      - remote_transmitter.transmit_sony:
+          data: 0x00000AF0
+          nbits: 12
+          repeat:
+            times: 3
+            wait_time: 25ms
+
+  - platform: template
+    name: Arrow >
+    turn_on_action:
+      - remote_transmitter.transmit_sony:
+          data: 0x00000CD0
+          nbits: 12
+          repeat:
+            times: 3
+            wait_time: 25ms
+
+  - platform: template
+    name: Arrow <
+    turn_on_action:
+      - remote_transmitter.transmit_sony:
+          data: 0x000002D0
+          nbits: 12
+          repeat:
+            times: 3
+            wait_time: 25ms
+          
+  - platform: template
+    name: Enter
+    turn_on_action:
+      - remote_transmitter.transmit_sony:
+          data: 0x00000A70
+          nbits: 12
+          repeat:
+            times: 3
+            wait_time: 25ms
+            
+#HDMI-Switch
+  #TV
+  - platform: template
+    name: Xbox TV
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0x807F
+          command: 0x40BF
+          
+  - platform: template
+    name: PS4 TV
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0x807F
+          command: 0xB04F
+          
+  - platform: template
+    name: Switch TV
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0x807F
+          command: 0x50AF
+
+  - platform: template
+    name: PC TV
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0x807F
+          command: 0x48B7
+
+  - platform: template
+    name: WiiU TV
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0x807F
+          command: 0x8877
+          
+  #AverMedia
+  - platform: template
+    name: Xbox AM
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0x807F
+          command: 0x708F
+
+  - platform: template
+    name: PS4 AM
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0x807F
+          command: 0x30CF
+
+  - platform: template
+    name: Switch AM
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0x807F
+          command: 0xF00F
+
+  - platform: template
+    name: PC AM
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0x807F
+          command: 0x906F
+
+  - platform: template
+    name: WiiU AM
+    turn_on_action:
+      - remote_transmitter.transmit_nec:
+          address: 0x807F
+          command: 0xA05F
